@@ -25,4 +25,16 @@ public class DiaryService {
         Diary savedDiary = diaryRepository.save(diary);
         return savedDiary.getDiaryId();
     }
+    @Transactional
+    public DiaryResponseDto getDiary(Long diaryId) {
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new IllegalArgumentException("Diary not found with id: " + diaryId));
+
+        DiaryResponseDto responseDto = new DiaryResponseDto();
+        responseDto.setDiaryId(diary.getDiaryId());
+        responseDto.setUserId(diary.getMember().getUserId());
+        responseDto.setContent(diary.getContent());
+
+        return responseDto;
+    }
 }
