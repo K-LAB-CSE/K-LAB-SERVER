@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,11 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public BaseResponse<DiaryResponseDto> getDiary(@PathVariable Long diaryId) {
         DiaryResponseDto responseDto = diaryService.getDiary(diaryId);
+        return new BaseResponse<>(responseDto);
+    }
+    @PutMapping("/{diaryId}")
+    public BaseResponse<DiaryResponseDto> updateDiary(@PathVariable Long diaryId, @RequestBody DiaryUpdateRequestDto requestDto) {
+        DiaryResponseDto responseDto = diaryService.updateDiary(diaryId, requestDto);
         return new BaseResponse<>(responseDto);
     }
 }
