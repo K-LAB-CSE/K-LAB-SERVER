@@ -14,16 +14,22 @@ public class DiaryService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long saveDiary(DiaryRequestDto requestDto) {
+    public DiaryResponseDto saveDiary(DiaryRequestDto requestDto) {
         Member member = memberRepository.findById(requestDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 유저 아이디입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
 
         Diary diary = new Diary();
         diary.setMember(member);
         diary.setContent(requestDto.getContent());
 
         Diary savedDiary = diaryRepository.save(diary);
-        return savedDiary.getDiaryId();
+
+        DiaryResponseDto responseDto = new DiaryResponseDto();
+        responseDto.setDiaryId(savedDiary.getDiaryId());
+        responseDto.setUserId(savedDiary.getMember().getUserId());
+        responseDto.setContent(savedDiary.getContent());
+
+        return responseDto;
     }
     @Transactional
     public DiaryResponseDto getDiary(Long diaryId) {

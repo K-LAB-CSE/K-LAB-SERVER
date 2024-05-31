@@ -17,9 +17,9 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping
-    public BaseResponse<Long> saveDiary(@RequestBody DiaryRequestDto requestDto) {
-        Long diaryId = diaryService.saveDiary(requestDto);
-        return new BaseResponse<>(diaryId);
+    public BaseResponse<DiaryResponseDto> saveDiary(@RequestBody DiaryRequestDto requestDto) {
+        DiaryResponseDto responseDto = diaryService.saveDiary(requestDto);
+        return new BaseResponse<>(responseDto);
     }
     @GetMapping("/{diaryId}")
     public BaseResponse<DiaryResponseDto> getDiary(@PathVariable Long diaryId) {
