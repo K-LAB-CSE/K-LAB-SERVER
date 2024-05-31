@@ -1,6 +1,7 @@
 package com.CSE.KLAB.diary;
 
 import com.CSE.KLAB.global.BaseResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,5 +32,10 @@ public class DiaryController {
     public BaseResponse<DiaryResponseDto> updateDiary(@PathVariable Long diaryId, @RequestBody DiaryUpdateRequestDto requestDto) {
         DiaryResponseDto responseDto = diaryService.updateDiary(diaryId, requestDto);
         return new BaseResponse<>(responseDto);
+    }
+    @GetMapping("/user/{userId}")
+    public BaseResponse<List<DiaryResponseDto>> getDiariesByUserId(@PathVariable Long userId) {
+        List<DiaryResponseDto> responseDtoList = diaryService.getDiariesByUserId(userId);
+        return new BaseResponse<>(responseDtoList);
     }
 }

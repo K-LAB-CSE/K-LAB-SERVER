@@ -3,6 +3,8 @@ package com.CSE.KLAB.diary;
 import com.CSE.KLAB.member.Member;
 import com.CSE.KLAB.member.MemberRepository;
 import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +59,17 @@ public class DiaryService {
         responseDto.setContent(updatedDiary.getContent());
 
         return responseDto;
+    }
+
+    public List<DiaryResponseDto> getDiariesByUserId(Long userId) {
+        List<Diary> diaries = diaryRepository.findByMemberUserId(userId);
+
+        return diaries.stream().map(diary -> {
+            DiaryResponseDto responseDto = new DiaryResponseDto();
+            responseDto.setDiaryId(diary.getDiaryId());
+            responseDto.setUserId(diary.getMember().getUserId());
+            responseDto.setContent(diary.getContent());
+            return responseDto;
+        }).collect(Collectors.toList());
     }
 }
