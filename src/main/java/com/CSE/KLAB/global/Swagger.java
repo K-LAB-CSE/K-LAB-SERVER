@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 @Configuration
 public class Swagger {
-    //http://localhost:8080/swagger-ui/index.html#/
+    //http://52.78.72.107:8080/swagger-ui/index.html#/
     @Bean
     public OpenAPI openAPI() {
 
