@@ -8,4 +8,5 @@ import lombok.Setter;
 public class DiaryRequestDto {
     private Long userId;
     private String content;
+    private int backgroundImageIdx;
 }
