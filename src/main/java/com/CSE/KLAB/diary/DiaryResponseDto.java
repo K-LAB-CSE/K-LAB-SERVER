@@ -9,4 +9,5 @@ public class DiaryResponseDto {
     private Long diaryId;
     private Long userId;
     private String content;
+    private int backgroundImageIdx;
 }

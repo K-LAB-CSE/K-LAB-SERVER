@@ -26,6 +26,10 @@ public class Diary {
     @JoinColumn(name = "user_id")
     private Member member;
 
+
     private String content;
+
+    @Column(name = "background_image_idx")
+    private int backgroundImageIdx;
 
 }
