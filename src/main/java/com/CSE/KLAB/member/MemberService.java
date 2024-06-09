@@ -42,4 +42,16 @@ public class MemberService {
 
         return responseDto;
     }
+    public MemberResponseDto getMemberByName(String name) {
+        Member member = memberRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with name: " + name));
+
+        MemberResponseDto responseDto = new MemberResponseDto();
+        responseDto.setUserId(member.getUserId());
+        responseDto.setName(member.getName());
+        responseDto.setIntroduce(member.getIntroduce());
+        responseDto.setProfileImage(member.getProfileImage());
+
+        return responseDto;
+    }
 }

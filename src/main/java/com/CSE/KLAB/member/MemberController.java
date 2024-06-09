@@ -27,4 +27,9 @@ public class MemberController {
         MemberResponseDto responseDto = memberService.getMember(userId);
         return new BaseResponse<>(responseDto);
     }
+    @GetMapping("/name/{name}")
+    public BaseResponse<MemberResponseDto> getMemberByName(@PathVariable String name) {
+        MemberResponseDto responseDto = memberService.getMemberByName(name);
+        return new BaseResponse<>(responseDto);
+    }
 }
