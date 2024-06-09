@@ -30,26 +30,34 @@ public class GPTController {
             @RequestParam String userInput,
             @RequestParam String todayDate) {
 
-        // 일기 생성 프롬프트 초기화
-        StringBuilder promptBuilder = new StringBuilder();
-        promptBuilder.append("This system is ai auto writing diary\n");
-        promptBuilder.append("Written person name is ").append(username).append(", write name at the end of diary.\n");
-        promptBuilder.append("I want you to write diary with information ").append(userInput).append("\n");
-//        promptBuilder.append("okay is there any information i need to know?\n");
-        promptBuilder.append("Also, write down date with information, ").append(todayDate).append("\n");
-//        promptBuilder.append("okay is there any information i need to know?\n");
-        promptBuilder.append("In the diary, change lines every 20 words.\n");
-        promptBuilder.append("And be sure to return the diary you generate in Korean language only.\n");
-//        promptBuilder.append("okay is there any information i need to know?\n");
+        // 첫 번째 프롬프트: 일기 생성
+        StringBuilder promptBuilder1 = new StringBuilder();
+        promptBuilder1.append("This system is ai auto writing diary\n");
+        promptBuilder1.append("Written person name is ").append(username).append(", write name at the end of diary.\n");
+        promptBuilder1.append("I want you to write diary with information ").append(userInput).append("\n");
+        promptBuilder1.append("Also, write down date with information, ").append(todayDate).append("\n");
+        promptBuilder1.append("In the diary, change lines every 20 words.\n");
 
-        GPTRequest gptRequest = new GPTRequest(
-                model, promptBuilder.toString(), 1, 256, 1, 2, 2);
+        GPTRequest gptRequest1 = new GPTRequest(
+                model, promptBuilder1.toString(), 1, 256, 1, 2, 2);
 
-        GPTResponse gptResponse = restTemplate.postForObject(
-                apiUrl, gptRequest, GPTResponse.class);
+        GPTResponse gptResponse1 = restTemplate.postForObject(
+                apiUrl, gptRequest1, GPTResponse.class);
 
+        String diaryContent = gptResponse1.getChoices().get(0).getMessage().getContent();
 
-        return gptResponse.getChoices().get(0).getMessage().getContent();
+        // 두 번째 프롬프트: 일기 번역
+        StringBuilder promptBuilder2 = new StringBuilder();
+        promptBuilder2.append("Translate this diary in korean language\n");
+        promptBuilder2.append(diaryContent);
+
+        GPTRequest gptRequest2 = new GPTRequest(
+                model, promptBuilder2.toString(), 1, 256, 1, 2, 2);
+
+        GPTResponse gptResponse2 = restTemplate.postForObject(
+                apiUrl, gptRequest2, GPTResponse.class);
+
+        return gptResponse2.getChoices().get(0).getMessage().getContent();
     }
 
     // 네덜란드어 일기 생성 컨트롤러
@@ -60,24 +68,34 @@ public class GPTController {
             @RequestParam String todayDate) {
 
         // 일기 생성 프롬프트 초기화
-        StringBuilder promptBuilder = new StringBuilder();
-        promptBuilder.append("This system is ai auto writing diary\n");
-        promptBuilder.append("Written person name is ").append(username).append(", write name at the end of diary.\n");
-        promptBuilder.append("I want you to write diary with information ").append(userInput).append("\n");
+        StringBuilder promptBuilder1 = new StringBuilder();
+        promptBuilder1.append("This system is ai auto writing diary\n");
+        promptBuilder1.append("Written person name is ").append(username).append(", write name at the end of diary.\n");
+        promptBuilder1.append("I want you to write diary with information ").append(userInput).append("\n");
 //        promptBuilder.append("okay is there any information i need to know?\n");
-        promptBuilder.append("Also, write down date with information, ").append(todayDate).append("\n");
+        promptBuilder1.append("Also, write down date with information, ").append(todayDate).append("\n");
 //        promptBuilder.append("okay is there any information i need to know?\n");
-        promptBuilder.append("In the diary, change lines every 20 words.\n");
-        promptBuilder.append("And be sure to return the diary you generate in dutch language only.\n");
-//        promptBuilder.append("okay is there any information i need to know?\n");
+        promptBuilder1.append("In the diary, change lines every 20 words.\n");
 
-        GPTRequest gptRequest = new GPTRequest(
-                model, promptBuilder.toString(), 1, 256, 1, 2, 2);
+        GPTRequest gptRequest1 = new GPTRequest(
+                model, promptBuilder1.toString(), 1, 256, 1, 2, 2);
 
-        GPTResponse gptResponse = restTemplate.postForObject(
-                apiUrl, gptRequest, GPTResponse.class);
+        GPTResponse gptResponse1 = restTemplate.postForObject(
+                apiUrl, gptRequest1, GPTResponse.class);
 
+        String diaryContent = gptResponse1.getChoices().get(0).getMessage().getContent();
 
-        return gptResponse.getChoices().get(0).getMessage().getContent();
+        // 두 번째 프롬프트: 일기 번역
+        StringBuilder promptBuilder2 = new StringBuilder();
+        promptBuilder2.append("Translate this diary in dutch language\n");
+        promptBuilder2.append(diaryContent);
+
+        GPTRequest gptRequest2 = new GPTRequest(
+                model, promptBuilder2.toString(), 1, 256, 1, 2, 2);
+
+        GPTResponse gptResponse2 = restTemplate.postForObject(
+                apiUrl, gptRequest2, GPTResponse.class);
+
+        return gptResponse2.getChoices().get(0).getMessage().getContent();
     }
 }
